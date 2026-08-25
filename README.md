@@ -42,22 +42,37 @@ The list, in the order it matters:
 1. ~~Phone number.~~ Done. `+91 86953 55528` is the primary, used by the hero call
    button, the sticky call bar, the contact block, the JSON-LD and the OG image.
    `+91 99420 51156` is listed as a second number in the contact block only.
-2. **Confirm which number has WhatsApp.** Both `wa.me/` links currently point at
-   `918695355528`. If WhatsApp is on the other number, change the two links in
-   `index.html` and the one in the contact block to `919942051156`. The `wa.me`
-   format takes the country code with no plus and no spaces.
-3. **Godown address, map link, GSTIN, working hours.** In the contact block and the
-   JSON-LD `PostalAddress`.
-4. **Site URL.** `canonical`, `og:url`, `og:image` and the JSON-LD `url`.
-5. **Rates.** Eight `TODO` placeholders in the grade table.
-6. **Record retention period** in the traceability section.
-7. **Delete `robots.txt`.** It currently disallows every crawler, on purpose, so
+2. ~~WhatsApp number.~~ Done. WhatsApp is on `8695355528`, which is what all three
+   `wa.me/` links already use.
+3. ~~Godown address and map link.~~ Done. 2, Balaji Nagar First Street,
+   Karuvampalayam, Tirupur - 641604, in the contact block and the JSON-LD
+   `PostalAddress`.
+4. **GSTIN and working hours.** Still `TODO` in the contact block.
+5. **Site URL.** `canonical`, `og:url`, `og:image` and the JSON-LD `url`.
+6. ~~Rates.~~ Decided: no figures. Every rate cell is a "call for rate" link to
+   the phone, so the chart itself dials. See below if that is ever reversed.
+7. **The grade names are still placeholders.** The eight grades in the table
+   were inferred from the brief, not from the real rate card. The actual card
+   sorts by fibre first and then white against colour - cotton, poly-cotton, OE,
+   polyester, viscose - plus a hospital-waste block, around 25 rows. The table
+   needs rebuilding around those names before this page is shown to anyone in
+   the trade.
+8. **Record retention period** in the traceability section.
+9. **Delete `robots.txt`.** It currently disallows every crawler, on purpose, so
    that the placeholder version of the page is never indexed for the searches it
    targets. This is the last step of launch, not an optional tidy-up - until the
    file is gone, the site is invisible to Google.
 
-The JSON-LD will not validate while `latitude`, `longitude` and `openingHours` hold the
-string `TODO`. Either fill them in or delete those three keys.
+The JSON-LD carries no `geo` or `openingHours`. Both are optional, and holding the
+string `TODO` in them would have made the structured data invalid, so they were
+removed rather than faked. Add `"openingHours"` back once the hours are settled.
+
+### Putting rates back
+
+If figures are ever wanted in the rate column, replace the `<a class="rate-call">`
+in each row with the number, and give the cell `class="c-rate"` a plain span. The
+`font-variant-numeric: tabular-nums` on `.grades .c-rate` is already in place so
+the digits line up in a column.
 
 ## The Tamil
 
