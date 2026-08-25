@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="TP Traders">
+  <title>TP Traders</title>
+  <rect width="64" height="64" rx="8" fill="#131F36"/>
+  <rect x="0" y="52" width="64" height="12" rx="0" fill="#E8A32B"/>
+  <text x="32" y="41"
+        text-anchor="middle"
+        font-family="Archivo Narrow, Arial Narrow, Helvetica, sans-serif"
+        font-size="34" font-weight="700" letter-spacing="0"
+        fill="#F6F4EE">TP</text>
+</svg>

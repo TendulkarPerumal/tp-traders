@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="TP Traders, Tirupur - banian and hosiery cutting waste buyer">
+  <title>TP Traders - cutting waste buyer, Tirupur</title>
+
+  <!--
+    Editable master for the Open Graph image.
+    Convert to a 1200x630 PNG before launch - WhatsApp, which is how this link
+    will actually spread, does not render SVG link previews. See README.md.
+    The converting machine needs Archivo Narrow and a Tamil font installed,
+    otherwise the text falls back and the layout shifts.
+  -->
+
+  <rect width="1200" height="630" fill="#0C1526"/>
+
+  <!-- Grade lot strip along the bottom, in the order used on the page -->
+  <g>
+    <rect x="0"    y="584" width="150" height="46" fill="#FFFFFF"/>
+    <rect x="150"  y="584" width="150" height="46" fill="#C9C08A"/>
+    <rect x="300"  y="584" width="150" height="46" fill="#262B37"/>
+    <rect x="450"  y="584" width="150" height="46" fill="#2E6F8E"/>
+    <rect x="600"  y="584" width="150" height="46" fill="#A8AAA3"/>
+    <rect x="750"  y="584" width="150" height="46" fill="#C3652F"/>
+    <rect x="900"  y="584" width="150" height="46" fill="#4C5C7A"/>
+    <rect x="1050" y="584" width="150" height="46" fill="#7C7669"/>
+  </g>
+
+  <text x="80" y="118"
+        font-family="Archivo Narrow, Arial Narrow, Helvetica, sans-serif"
+        font-size="26" font-weight="600" letter-spacing="7"
+        fill="#8C99B2">TIRUPUR &#183; TAMIL NADU</text>
+
+  <text x="80" y="268"
+        font-family="Archivo Narrow, Arial Narrow, Helvetica, sans-serif"
+        font-size="148" font-weight="700" letter-spacing="-1"
+        fill="#F6F4EE">TP TRADERS</text>
+
+  <rect x="80" y="300" width="220" height="8" fill="#E8A32B"/>
+
+  <text x="80" y="394"
+        font-family="Noto Sans Tamil, Nirmala UI, Latha, sans-serif"
+        font-size="50" font-weight="600"
+        fill="#F6F4EE">பனியன் &amp; ஹோசியரி கட்டிங் வேஸ்ட் வாங்கப்படும்</text>
+
+  <text x="80" y="464"
+        font-family="Archivo Narrow, Arial Narrow, Helvetica, sans-serif"
+        font-size="34" font-weight="600" letter-spacing="1"
+        fill="#8C99B2">CUTTING WASTE BUYER &#183; OWN VEHICLE &#183; SAME-DAY PAYMENT</text>
+
+  <text x="80" y="536"
+        font-family="Archivo Narrow, Arial Narrow, Helvetica, sans-serif"
+        font-size="30" font-weight="700" letter-spacing="4"
+        fill="#E8A32B">TODO: +91 XXXXX XXXXX</text>
+</svg>
