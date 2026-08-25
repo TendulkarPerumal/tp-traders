@@ -619,6 +619,8 @@ a { color: inherit; }
 .contact a { color: var(--ink); text-underline-offset: 3px; }
 
 .contact .tel {
+  display: block;
+  width: fit-content;
   font-family: var(--cond);
   font-weight: 700;
   font-size: 1.375rem;
@@ -627,6 +629,8 @@ a { color: inherit; }
   text-decoration: none;
   border-bottom: 2px solid var(--mark);
 }
+
+.contact .tel + .tel { margin-top: 0.6rem; }
 
 .contact .mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

@@ -39,10 +39,13 @@ grep -rn "TODO" index.html assets/
 
 The list, in the order it matters:
 
-1. **Phone number.** Appears in the hero button, the sticky call bar, the contact block
-   and the JSON-LD. Both `tel:` links and both `wa.me/` links.
-2. **WhatsApp number.** `https://wa.me/<number>` takes the number in international format
-   with no plus and no spaces, for example `919876543210`.
+1. ~~Phone number.~~ Done. `+91 86953 55528` is the primary, used by the hero call
+   button, the sticky call bar, the contact block, the JSON-LD and the OG image.
+   `+91 99420 51156` is listed as a second number in the contact block only.
+2. **Confirm which number has WhatsApp.** Both `wa.me/` links currently point at
+   `918695355528`. If WhatsApp is on the other number, change the two links in
+   `index.html` and the one in the contact block to `919942051156`. The `wa.me`
+   format takes the country code with no plus and no spaces.
 3. **Godown address, map link, GSTIN, working hours.** In the contact block and the
    JSON-LD `PostalAddress`.
 4. **Site URL.** `canonical`, `og:url`, `og:image` and the JSON-LD `url`.
