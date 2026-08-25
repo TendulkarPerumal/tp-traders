@@ -30,6 +30,18 @@
   --tamil: "Noto Sans Tamil", "Nirmala UI", Latha, "Tamil Sangam MN", var(--sans);
 
   --gut: clamp(1rem, 4vw, 2rem);
+
+  /* The eight lot colours, in chart order. Used as the identity band and as
+     the leading edge of each row, so the page and the chart share one system. */
+  --lots: linear-gradient(90deg,
+    #FFFFFF 0 12.5%, #C9C08A 0 25%,   #262B37 0 37.5%, #2E6F8E 0 50%,
+    #A8AAA3 0 62.5%, #C3652F 0 75%,   #4C5C7A 0 87.5%, #7C7669 0 100%);
+}
+
+.lot-strip {
+  height: 0.625rem;
+  background: var(--lots);
+  box-shadow: inset 0 1px 0 rgba(19, 31, 54, 0.25);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -63,6 +75,9 @@ a { color: inherit; }
 
 .section { padding-block: clamp(2.5rem, 7vw, 4.5rem); }
 
+/* Sections are numbered like items on a docket. Pure CSS counter, no markup. */
+main { counter-reset: sec; }
+
 .section-h {
   font-family: var(--cond);
   font-weight: 700;
@@ -71,6 +86,16 @@ a { color: inherit; }
   text-transform: uppercase;
   margin: 0 0 0.35em;
 }
+
+.section-h::before {
+  counter-increment: sec;
+  content: counter(sec, decimal-leading-zero);
+  margin-right: 0.85em;
+  color: var(--mark-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.section-why .section-h::before { color: var(--mark); }
 
 .section-lede {
   max-width: 44ch;
@@ -97,7 +122,6 @@ a { color: inherit; }
   background: var(--deep);
   color: var(--chalk);
   padding-block: clamp(2.75rem, 9vw, 5rem) clamp(2.25rem, 7vw, 4rem);
-  border-bottom: 3px solid var(--mark);
 }
 
 .brand {
@@ -192,18 +216,21 @@ a { color: inherit; }
   margin: 0;
 }
 
+/* The chart is the reason the link gets forwarded, so its title is set as a
+   title, not as a label. This is where the page is allowed to be loud. */
 .grades-cap {
   display: block;
   text-align: left;
   font-family: var(--cond);
   font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.16em;
+  font-size: clamp(1rem, 0.88rem + 0.6vw, 1.375rem);
+  line-height: 1.2;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.1rem;
-  border-bottom: 3px solid var(--mark);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 4px solid var(--mark);
 }
 
 /* Column labels stay in the accessibility tree on mobile, out of sight. */
@@ -224,7 +251,7 @@ a { color: inherit; }
   background: var(--paper);
   border: 1px solid var(--rule);
   border-radius: 3px;
-  padding: 0.9rem 1rem 0.9rem 1.6rem;
+  padding: 1rem 1rem 1rem 2.25rem;
   margin-bottom: 0.6rem;
 }
 
@@ -233,7 +260,7 @@ a { color: inherit; }
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
-  width: 0.75rem;
+  width: 1.25rem;
   background: var(--swatch, var(--mute));
   border-radius: 2px 0 0 2px;
   box-shadow: inset -1px 0 0 rgba(19, 31, 54, 0.22);
@@ -266,7 +293,7 @@ a { color: inherit; }
   display: block;
   font-family: var(--tamil);
   line-height: 1.7;
-  font-size: clamp(1.125rem, 1.02rem + 0.5vw, 1.3rem);
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.45rem);
   font-weight: 600;
 }
 
@@ -413,14 +440,14 @@ a { color: inherit; }
   .c-code {
     position: relative;
     width: 1%;
-    padding-left: 1.75rem;
+    padding-left: 2.5rem;
     white-space: nowrap;
   }
   .c-code::before {
     content: "";
     position: absolute;
     inset: 0 auto 0 0;
-    width: 0.75rem;
+    width: 1.25rem;
     background: var(--swatch, var(--mute));
     box-shadow: inset -1px 0 0 rgba(19, 31, 54, 0.22);
   }
@@ -595,6 +622,11 @@ a { color: inherit; }
   display: grid;
   gap: 0;
   max-width: 52rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--ink);
+  border-radius: 3px;
+  padding: 0.35rem clamp(1.1rem, 3vw, 1.75rem);
 }
 
 .c-row {
@@ -603,7 +635,7 @@ a { color: inherit; }
   padding: 0.85rem 0;
   border-top: 1px solid var(--rule);
 }
-.c-row:last-child { border-bottom: 1px solid var(--rule); }
+.c-row:first-child { border-top: 0; }
 
 .contact dt {
   font-family: var(--cond);
