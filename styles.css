@@ -1,0 +1,705 @@
+/* ============================================================================
+   TP Traders - styles.css
+   Single stylesheet, no build step, no preprocessor.
+
+   Palette comes from the visiting card. Two derived tokens are added because
+   the card palette has no colour that passes contrast for small text on chalk:
+     --ink-2     a tint of ink, for secondary text on light surfaces
+     --mark-deep turmeric darkened to 4.54:1 on chalk, for small turmeric text
+   --mute is used only for hairlines and for secondary text on dark, where it
+   measures 6.4:1. It is never used for text on chalk (2.6:1).
+   ========================================================================= */
+
+:root {
+  --ink:       #131F36;
+  --deep:      #0C1526;
+  --chalk:     #F6F4EE;
+  --mark:      #E8A32B;
+  --mute:      #8C99B2;
+
+  --ink-2:     #4A5568;
+  --mark-deep: #9A6410;
+  --paper:     #FFFDF8;
+
+  --rule:      rgba(19, 31, 54, 0.16);
+  --rule-firm: rgba(19, 31, 54, 0.32);
+  --rule-dark: rgba(246, 244, 238, 0.18);
+
+  --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --cond:  "Archivo Narrow", "Arial Narrow", "Liberation Sans Narrow", var(--sans);
+  --tamil: "Noto Sans Tamil", "Nirmala UI", Latha, "Tamil Sangam MN", var(--sans);
+
+  --gut: clamp(1rem, 4vw, 2rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 0.96rem + 0.25vw, 1.0625rem);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tamil needs more leading than Latin. Set it here, never inherited. */
+[lang="ta"] {
+  font-family: var(--tamil);
+  line-height: 1.85;
+}
+
+p { margin: 0 0 1em; }
+a { color: inherit; }
+
+.wrap {
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+.section { padding-block: clamp(2.5rem, 7vw, 4.5rem); }
+
+.section-h {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.35rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 0.35em;
+}
+
+.section-lede {
+  max-width: 44ch;
+  color: var(--ink-2);
+  margin-bottom: 1.6rem;
+}
+
+/* Keyboard focus. Ink on light surfaces, turmeric on the dark bands. */
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.hero :focus-visible,
+.section-why :focus-visible,
+.callbar :focus-visible,
+.foot :focus-visible {
+  outline-color: var(--mark);
+}
+
+/* ============================== 1. HERO ================================== */
+
+.hero {
+  background: var(--deep);
+  color: var(--chalk);
+  padding-block: clamp(2.75rem, 9vw, 5rem) clamp(2.25rem, 7vw, 4rem);
+  border-bottom: 3px solid var(--mark);
+}
+
+.brand {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: clamp(3rem, 1.6rem + 9vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin: 0 0 0.3em;
+}
+
+.hero-ta {
+  font-size: clamp(1.2rem, 1.02rem + 1vw, 1.7rem);
+  line-height: 1.65;
+  font-weight: 600;
+  max-width: 30ch;
+  margin: 0 0 0.6em;
+}
+
+.hero-en {
+  color: var(--mute);
+  max-width: 46ch;
+  margin: 0 0 2rem;
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  flex: 1 1 15rem;
+  min-height: 3.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.7rem 1.1rem;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  transition: background-color 120ms linear, border-color 120ms linear;
+}
+
+.btn-label {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.btn-sub {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Turmeric on ink text measures 7.6:1. This is the one loud element. */
+.btn-call {
+  background: var(--mark);
+  color: var(--ink);
+}
+.btn-call .btn-sub { color: rgba(19, 31, 54, 0.78); }
+.btn-call:hover { background: #F2AF3C; }
+
+.btn-wa {
+  background: transparent;
+  color: var(--chalk);
+  border-color: rgba(246, 244, 238, 0.45);
+}
+.btn-wa .btn-sub { color: var(--mute); }
+.btn-wa:hover { border-color: var(--chalk); }
+
+/* ========================== 2. GRADE TABLE ==============================
+   Mobile first: each row is a sorted lot card with the material colour on
+   its leading edge. From 720px up it becomes a real table.
+   The table keeps explicit ARIA roles in the markup because display:block
+   on table elements drops the implicit table semantics.
+   ====================================================================== */
+
+.grades {
+  display: block;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+}
+
+.grades-cap {
+  display: block;
+  text-align: left;
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 3px solid var(--mark);
+}
+
+/* Column labels stay in the accessibility tree on mobile, out of sight. */
+.grades thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.grades tbody { display: block; }
+
+.grades tbody tr {
+  display: block;
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.9rem 1rem 0.9rem 1.6rem;
+  margin-bottom: 0.6rem;
+}
+
+/* The colour of the lot itself, on the leading edge of the card. */
+.grades tbody tr::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.75rem;
+  background: var(--swatch, var(--mute));
+  border-radius: 2px 0 0 2px;
+  box-shadow: inset -1px 0 0 rgba(19, 31, 54, 0.22);
+}
+
+.grades th,
+.grades td {
+  display: block;
+  padding: 0;
+  text-align: left;
+  font-weight: 400;
+}
+
+.c-code { margin-bottom: 0.45rem; }
+
+.stencil {
+  display: inline-block;
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  padding: 0.3rem 0.45rem 0.26rem;
+  background: var(--ink);
+  color: var(--chalk);
+  border-radius: 2px;
+}
+
+.ta-name {
+  display: block;
+  font-family: var(--tamil);
+  line-height: 1.7;
+  font-size: clamp(1.125rem, 1.02rem + 0.5vw, 1.3rem);
+  font-weight: 600;
+}
+
+.en-name {
+  display: block;
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-top: 0.1rem;
+}
+
+.c-note { margin-top: 0.5rem; }
+
+.note-en {
+  display: block;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.note-ta {
+  display: block;
+  font-family: var(--tamil);
+  line-height: 1.8;
+  font-size: 0.9375rem;
+  color: var(--mark-deep);
+  margin-top: 0.2rem;
+}
+
+.c-rate {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--rule-firm);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.rate-k {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.rate-v { white-space: nowrap; }
+
+.todo {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--mark-deep);
+  border: 1px dashed currentColor;
+  border-radius: 2px;
+  padding: 0.1rem 0.3rem;
+  vertical-align: 0.12em;
+}
+
+.num {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 1.375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+.grades-foot {
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+/* ---- Grade table, 720px and up: back to a real table -------------------- */
+
+@media (min-width: 720px) {
+  .grades { display: table; }
+  .grades-cap { display: table-caption; caption-side: top; }
+  .grades tbody { display: table-row-group; }
+
+  .grades thead {
+    display: table-header-group;
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    overflow: visible;
+  }
+
+  .grades thead th {
+    display: table-cell;
+    background: var(--ink);
+    color: var(--chalk);
+    font-family: var(--cond);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.65rem 1rem;
+    white-space: nowrap;
+  }
+  .grades thead th:first-child { border-radius: 3px 0 0 0; }
+  .grades thead th:last-child  { border-radius: 0 3px 0 0; }
+  .grades thead .col-rate { text-align: right; }
+
+  .grades tbody tr {
+    display: table-row;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .grades tbody tr::before { content: none; }
+
+  .grades tbody th,
+  .grades tbody td {
+    display: table-cell;
+    vertical-align: top;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.95rem 1rem;
+    margin: 0;
+  }
+
+  /* Leading edge moves onto the first cell, which stretches to row height. */
+  .c-code {
+    position: relative;
+    width: 1%;
+    padding-left: 1.75rem;
+    white-space: nowrap;
+  }
+  .c-code::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0.75rem;
+    background: var(--swatch, var(--mute));
+    box-shadow: inset -1px 0 0 rgba(19, 31, 54, 0.22);
+  }
+  .grades tbody tr:last-child .c-code::before { border-radius: 0 0 0 3px; }
+
+  .c-name { width: 24%; }
+  .c-note { width: 46%; margin-top: 0; }
+
+  .c-rate {
+    display: table-cell;
+    text-align: right;
+    white-space: nowrap;
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0.95rem;
+    width: 1%;
+  }
+  .rate-k { display: none; }
+}
+
+/* ========================== 3. HOW IT WORKS ============================== */
+
+.section-steps { border-top: 1px solid var(--rule); }
+
+.steps-intro {
+  font-family: var(--tamil);
+  line-height: 1.8;
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  font-weight: 600;
+  max-width: 34ch;
+  margin: 0 0 1.75rem;
+}
+
+.steps {
+  list-style: none;
+  counter-reset: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr;
+  align-items: start;
+  column-gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+}
+.step:last-child { border-bottom: 1px solid var(--rule); }
+
+.step-n {
+  grid-row: 1 / span 2;
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 0.9;
+  color: var(--mark-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.step-ta {
+  font-family: var(--tamil);
+  line-height: 1.75;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.step-en {
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.steps-note {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.25rem;
+  max-width: 48ch;
+}
+.steps-note [lang="ta"] { font-weight: 600; }
+.steps-note-en { font-size: 0.9375rem; color: var(--ink-2); }
+
+@media (min-width: 720px) {
+  .steps { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .step { border-bottom: 1px solid var(--rule); }
+}
+
+/* ========================== 4. WHY SELL TO US ============================ */
+
+.section-why {
+  background: var(--ink);
+  color: var(--chalk);
+}
+
+.why {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.why-item {
+  padding: 1rem 0 1rem 1.25rem;
+  border-top: 1px solid var(--rule-dark);
+  position: relative;
+}
+.why-item:last-child { border-bottom: 1px solid var(--rule-dark); }
+
+.why-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.45rem;
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--mark);
+}
+
+.why-ta {
+  display: block;
+  font-family: var(--tamil);
+  line-height: 1.7;
+  font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.3rem);
+  font-weight: 600;
+}
+
+.why-en {
+  display: block;
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-top: 0.25rem;
+}
+
+@media (min-width: 720px) {
+  .why { grid-template-columns: 1fr 1fr; column-gap: 2.5rem; }
+  .why-item:nth-child(2) { border-top: 1px solid var(--rule-dark); }
+  .why-item:nth-child(3) { border-bottom: 1px solid var(--rule-dark); }
+}
+
+/* ===================== 5. TRACEABILITY AND RECORDS ======================= */
+
+.trace-body {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--ink);
+  border-radius: 3px;
+  padding: clamp(1.1rem, 3vw, 1.75rem);
+  max-width: 62ch;
+  font-size: 0.9375rem;
+}
+.trace-body p:last-child { margin-bottom: 0; }
+
+.trace-todo {
+  color: var(--mark-deep);
+  border-top: 1px dashed var(--rule-firm);
+  padding-top: 0.9rem;
+  margin-top: 1.2rem;
+}
+
+/* ============================== 6. CONTACT ============================== */
+
+.section-contact { border-top: 1px solid var(--rule); }
+
+.contact {
+  margin: 0;
+  display: grid;
+  gap: 0;
+  max-width: 52rem;
+}
+
+.c-row {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--rule);
+}
+.c-row:last-child { border-bottom: 1px solid var(--rule); }
+
+.contact dt {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.contact dd {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.contact a { color: var(--ink); text-underline-offset: 3px; }
+
+.contact .tel {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 1.375rem;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  border-bottom: 2px solid var(--mark);
+}
+
+.contact .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 720px) {
+  .c-row { grid-template-columns: 12rem 1fr; gap: 1.5rem; align-items: baseline; }
+}
+
+/* ============================== FOOTER ================================= */
+
+.foot {
+  background: var(--deep);
+  color: var(--mute);
+  padding-block: 1.75rem;
+  /* Clear the sticky call bar so it never covers this line. */
+  padding-bottom: calc(1.75rem + 4rem + env(safe-area-inset-bottom, 0px));
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.foot p { margin: 0; }
+
+@media (min-width: 720px) {
+  .foot { padding-bottom: 1.75rem; }
+}
+
+/* ========================== STICKY CALL BAR ============================= */
+
+.callbar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1px;
+  background: var(--rule-dark);
+  border-top: 1px solid var(--rule-dark);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.cb-btn {
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  font-family: var(--tamil);
+  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cb-call { background: var(--mark); color: var(--ink); }
+.cb-wa   { background: var(--ink);  color: var(--chalk); }
+
+@media (min-width: 720px) {
+  .callbar { display: none; }
+}
+
+/* ========================== REDUCED MOTION ============================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
