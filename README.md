@@ -48,6 +48,10 @@ The list, in the order it matters:
 4. **Site URL.** `canonical`, `og:url`, `og:image` and the JSON-LD `url`.
 5. **Rates.** Eight `TODO` placeholders in the grade table.
 6. **Record retention period** in the traceability section.
+7. **Delete `robots.txt`.** It currently disallows every crawler, on purpose, so
+   that the placeholder version of the page is never indexed for the searches it
+   targets. This is the last step of launch, not an optional tidy-up - until the
+   file is gone, the site is invisible to Google.
 
 The JSON-LD will not validate while `latitude`, `longitude` and `openingHours` hold the
 string `TODO`. Either fill them in or delete those three keys.
@@ -102,8 +106,27 @@ change needed, the font stack already names it first.
 
 ## Deploy
 
-Both hosts serve this repository as-is. There is no build command and no output
-directory.
+All three hosts serve this repository as-is. There is no build command and no
+output directory.
+
+### Vercel
+
+`vercel.json` in this repository already sets framework to none, so there is
+nothing to configure in the dashboard.
+
+1. Push this repository to GitHub.
+2. In Vercel, **Add New, Project**, and import the repository.
+3. Framework preset will read **Other**. Leave build command and output
+   directory empty. Deploy.
+4. Every push to `main` deploys. Pushes to other branches get preview URLs.
+
+Adding a custom domain: **Project, Settings, Domains**. Once a real domain is
+live, set `canonical`, `og:url`, `og:image` and the JSON-LD `url` in
+`index.html` to that domain - link previews need absolute URLs, and the
+`.vercel.app` URL should not be the canonical one.
+
+The Vercel CLI (`npx vercel`) is the other way in, but it needs Node installed
+locally. The git-connected route above needs nothing but git.
 
 ### Cloudflare Pages
 

@@ -1,0 +1,12 @@
+# TEMPORARY - DELETE THIS FILE AT LAUNCH.
+#
+# While the page still carries TODO placeholders, it must not be indexed.
+# This page targets "cutting waste buyer Tirupur" and the Tamil equivalents.
+# If Google indexes the placeholder version, the result that shows for those
+# searches is a page whose phone number reads TODO: +91 XXXXX XXXXX.
+#
+# Delete this whole file once the TODO values are filled in. Deleting it is
+# the last step of launch, not an optional tidy-up.
+
+User-agent: *
+Disallow: /
